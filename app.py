@@ -58,7 +58,7 @@ df = load_data()
 nb_model = joblib.load("naive_bayes_model.pkl")
 vectorizer = joblib.load("tfidf_vectorizer.pkl")
 
-MODEL_PATH = "./indobert_model"
+MODEL_PATH = "matthewaldhino/indobert-sentiment"
 tokenizer = BertTokenizer.from_pretrained(MODEL_PATH)
 bert_model = BertForSequenceClassification.from_pretrained(MODEL_PATH, num_labels=2)
 bert_model.to("cpu")
@@ -162,4 +162,5 @@ Model **IndoBERT** yang di-fine-tuning mampu meningkatkan akurasi prediksi senti
 mengungguli model tradisional **Naive Bayes**. 
 Penggunaan model berbasis Transformer dapat memahami konteks komentar
 dengan lebih baik dan menghasilkan analisis sentimen yang lebih akurat.
+
 """)
