@@ -2,8 +2,8 @@ streamlit
 pandas
 plotly
 joblib
-torch
-transformers
+torch==2.5.1
+transformers==4.44.2
 wordcloud
 matplotlib
-scikit-learn
+scikit-learn==1.6.1
