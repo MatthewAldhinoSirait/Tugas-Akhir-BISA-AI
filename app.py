@@ -55,17 +55,16 @@ bert_model = BertForSequenceClassification.from_pretrained(
     MODEL_PATH,
     num_labels=2
 )
-bert_model.to(torch.device("cpu"))
-bert_model.eval()
+bert_model.eval()  # ⚡ sudah default CPU, tidak perlu bert_model.to("cpu")
 
 # === FUNGSI PREDIKSI ===
-def predict_nb(text):
+def predict_nb(text: str):
     X = vectorizer.transform([text])
     pred = nb_model.predict(X)[0]
     prob = nb_model.predict_proba(X)[0][pred]
     return ("Positif" if pred == 1 else "Negatif"), float(prob)
 
-def predict_bert(text):
+def predict_bert(text: str):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=128)
     with torch.no_grad():
         outputs = bert_model(**inputs)
@@ -89,9 +88,12 @@ selama periode kepelatihan Shin Tae-yong berdasarkan komentar berlabel positif d
 st.markdown("<h2>🔍 Distribusi Sentimen</h2>", unsafe_allow_html=True)
 label_counts = df['label'].value_counts().rename({0: 'Negatif', 1: 'Positif'}).reset_index()
 label_counts.columns = ['Sentimen', 'Jumlah']
-fig_sentimen = px.bar(label_counts, x='Sentimen', y='Jumlah', color='Sentimen',
-                      color_discrete_map={'Positif': '#b22234', 'Negatif': '#ffffff'},
-                      text='Jumlah')
+fig_sentimen = px.bar(
+    label_counts,
+    x='Sentimen', y='Jumlah', color='Sentimen',
+    color_discrete_map={'Positif': '#b22234', 'Negatif': '#ffffff'},
+    text='Jumlah'
+)
 fig_sentimen.update_layout(
     showlegend=False,
     plot_bgcolor='#111111',
@@ -110,6 +112,7 @@ with col1:
     plt.axis("off")
     st.pyplot(plt.gcf())
     plt.clf()
+
 with col2:
     st.markdown("<h3>Wordcloud Komentar Negatif</h3>", unsafe_allow_html=True)
     text_neg = " ".join(df[df['label'] == 0]['komentar'])
@@ -126,9 +129,11 @@ metrics = pd.DataFrame({
     "Akurasi": [0.675, 0.7375],
     "F1-Score": [0.67, 0.74]
 })
-fig_model = px.bar(metrics.melt(id_vars='Model', value_vars=['Akurasi', 'F1-Score']),
-                   x='Model', y='value', color='variable', barmode='group',
-                   color_discrete_map={'Akurasi': '#b22234', 'F1-Score': '#ffffff'})
+fig_model = px.bar(
+    metrics.melt(id_vars='Model', value_vars=['Akurasi', 'F1-Score']),
+    x='Model', y='value', color='variable', barmode='group',
+    color_discrete_map={'Akurasi': '#b22234', 'F1-Score': '#ffffff'}
+)
 fig_model.update_layout(
     plot_bgcolor='#111111',
     paper_bgcolor='#111111',
