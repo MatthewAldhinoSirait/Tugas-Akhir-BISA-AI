@@ -62,10 +62,9 @@ MODEL_PATH = "matthewaldhino/indobert-sentiment"
 tokenizer = BertTokenizer.from_pretrained(MODEL_PATH)
 bert_model = BertForSequenceClassification.from_pretrained(
     MODEL_PATH,
-    num_labels=2,
-    low_cpu_mem_usage=True,
-    device_map="cpu"
+    num_labels=2
 )
+bert_model.to("cpu")
 bert_model.eval()
 
 # === FUNGSI PREDIKSI ===
@@ -168,4 +167,5 @@ Penggunaan model berbasis Transformer dapat memahami konteks komentar
 dengan lebih baik dan menghasilkan analisis sentimen yang lebih akurat.
 
 """)
+
 
