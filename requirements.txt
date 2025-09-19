@@ -8,4 +8,3 @@ tokenizers==0.15.2
 wordcloud
 matplotlib
 scikit-learn==1.6.1
-accelerate
