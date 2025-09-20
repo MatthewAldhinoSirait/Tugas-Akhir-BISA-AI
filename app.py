@@ -55,7 +55,7 @@ bert_model = BertForSequenceClassification.from_pretrained(
     MODEL_PATH,
     num_labels=2
 )
-bert_model.eval()  # ⚡ sudah default CPU, tidak perlu bert_model.to("cpu")
+bert_model.eval()  # default ke CPU, aman di Streamlit Cloud
 
 # === FUNGSI PREDIKSI ===
 def predict_nb(text: str):
